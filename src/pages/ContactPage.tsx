@@ -5,43 +5,22 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin, Clock, Send, Building, Globe } from "lucide-react";
+import { Em, useI18n } from "@/i18n/language";
+import { EdgeRule, Mark, marks } from "@/components/decoration/OriginMarks";
 
-const contactInfo = [
-  {
-    icon: Mail,
-    title: "Email",
-    value: "contact@celium-oils.com",
-    description: "For general inquiries",
-  },
-  {
-    icon: Phone,
-    title: "Phone",
-    value: "+216 XX XXX XXX",
-    description: "Monday - Friday, 9AM - 6PM",
-  },
-  {
-    icon: MapPin,
-    title: "Location",
-    value: "Tunis, Tunisia",
-    description: "Mediterranean heart of olive oil",
-  },
-  {
-    icon: Clock,
-    title: "Response Time",
-    value: "Within 24 hours",
-    description: "We value your time",
-  },
-];
-
-const inquiryTypes = [
-  { value: "wholesale", label: "Wholesale Inquiry" },
-  { value: "partnership", label: "Partnership Opportunity" },
-  { value: "private-label", label: "Private Label Services" },
-  { value: "export", label: "Export & Distribution" },
-  { value: "other", label: "Other" },
-];
+const infoIcons = [Mail, Phone, MapPin, Clock];
+const inquiryValues = ["importer", "distributor", "grocery", "hotel", "restaurant", "chef", "press", "other"];
 
 const ContactPage = () => {
+  const { t, tm } = useI18n();
+  const contactInfo = tm<{ title: string; value: string; description: string }[]>("contactPage.cards").map((card, index) => ({
+    ...card,
+    icon: infoIcons[index],
+  }));
+  const inquiryTypes = inquiryValues.map((value, index) => ({
+    value,
+    label: tm<string[]>("contactPage.types")[index],
+  }));
   const heroRef = useRef(null);
   const formRef = useRef(null);
 
@@ -67,8 +46,8 @@ const ContactPage = () => {
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     toast({
-      title: "Message Sent Successfully",
-      description: "Thank you for reaching out. Our team will respond within 24 hours.",
+      title: t("contactPage.toastTitle"),
+      description: t("contactPage.toastBody"),
     });
     
     setFormData({
@@ -92,6 +71,9 @@ const ContactPage = () => {
       
       {/* Hero Section */}
       <section ref={heroRef} className="relative py-32 md:py-40 bg-primary overflow-hidden">
+        <Mark src={marks.lattice} deep className="left-4 top-28 hidden h-44 md:block" />
+        <Mark src={marks.diamond} deep className="right-8 top-32 hidden h-16 md:block" />
+        <Mark src={marks.grove} deep className="bottom-8 left-10 hidden h-12 md:block" />
         <div className="absolute inset-0 opacity-10">
           <div
             className="absolute inset-0"
@@ -109,22 +91,23 @@ const ContactPage = () => {
           className="container mx-auto px-6 text-center relative z-10"
         >
           <span className="text-gold-light text-sm tracking-[0.3em] uppercase mb-4 block">
-            Get In Touch
+            {t("contactPage.kicker")}
           </span>
           <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-primary-foreground font-light mb-6">
-            Contact <span className="italic">Us</span>
+            <Em text={t("contactPage.title")} />
           </h1>
           <div className="gold-line mb-8" />
           <p className="text-primary-foreground/70 text-lg md:text-xl max-w-2xl mx-auto">
-            Whether you're a distributor, retailer, or culinary professional, 
-            we'd love to explore how CELIUM can elevate your offerings.
+            {t("contactPage.lead")}
           </p>
         </motion.div>
       </section>
 
       {/* Contact Info Cards */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="container mx-auto px-6">
+      <section className="relative overflow-hidden py-24 md:py-32 bg-background">
+        <Mark src={marks.crescent} className="-left-6 top-20 hidden h-72 xl:block" />
+        <Mark src={marks.tree} className="bottom-8 right-6 hidden h-24 md:block" />
+        <div className="container relative z-10 mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
             {contactInfo.map((info, index) => (
               <motion.div
@@ -157,35 +140,33 @@ const ContactPage = () => {
               className="lg:col-span-2"
             >
               <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-                Let's Connect
+                {t("contactPage.profession")}
               </span>
               <h2 className="font-serif text-4xl md:text-5xl text-primary font-light mb-6">
-                Start a <span className="italic">Conversation</span>
+                <Em text={t("contactPage.begin")} />
               </h2>
               <div className="gold-line mx-0 mb-8" />
               
               <p className="text-foreground/70 leading-relaxed mb-8">
-                We're here to answer your questions, discuss partnership opportunities, 
-                and explore how CELIUM can become your trusted source for premium 
-                Tunisian olive oil.
+                {t("contactPage.beginText")}
               </p>
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <Building className="w-6 h-6 text-accent flex-shrink-0 mt-1" strokeWidth={1} />
                   <div>
-                    <h4 className="font-serif text-lg text-primary mb-1">B2B Focus</h4>
+                    <h4 className="font-serif text-lg text-primary mb-1">{t("contactPage.forProfession")}</h4>
                     <p className="text-muted-foreground text-sm">
-                      Wholesale, private label, and export services for businesses worldwide.
+                      {t("contactPage.forProfessionText")}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <Globe className="w-6 h-6 text-accent flex-shrink-0 mt-1" strokeWidth={1} />
                   <div>
-                    <h4 className="font-serif text-lg text-primary mb-1">Global Reach</h4>
+                    <h4 className="font-serif text-lg text-primary mb-1">{t("contactPage.international")}</h4>
                     <p className="text-muted-foreground text-sm">
-                      Currently serving 40+ countries with dedicated logistics support.
+                      {t("contactPage.internationalText")}
                     </p>
                   </div>
                 </div>
@@ -194,8 +175,7 @@ const ContactPage = () => {
               {/* Quote */}
               <div className="mt-12 p-6 bg-secondary border-l-4 border-accent">
                 <p className="font-serif text-lg text-foreground/80 italic">
-                  "Every partnership begins with a conversation. Let's discover 
-                  how CELIUM can add value to your business."
+                  {t("contactPage.quote")}
                 </p>
               </div>
             </motion.div>
@@ -211,7 +191,7 @@ const ContactPage = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="text-sm tracking-wider text-foreground/70 block mb-2">
-                      Full Name *
+                      {t("contactPage.fullName")}
                     </label>
                     <input
                       type="text"
@@ -220,12 +200,12 @@ const ContactPage = () => {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-border bg-background text-foreground focus:border-accent focus:outline-none transition-colors"
-                      placeholder="Your name"
+                      placeholder={t("contact.namePh")}
                     />
                   </div>
                   <div>
                     <label className="text-sm tracking-wider text-foreground/70 block mb-2">
-                      Email Address *
+                      {t("contactPage.email")}
                     </label>
                     <input
                       type="email"
@@ -234,7 +214,7 @@ const ContactPage = () => {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-border bg-background text-foreground focus:border-accent focus:outline-none transition-colors"
-                      placeholder="your@email.com"
+                      placeholder={t("contact.emailPh")}
                     />
                   </div>
                 </div>
@@ -242,7 +222,7 @@ const ContactPage = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="text-sm tracking-wider text-foreground/70 block mb-2">
-                      Company
+                      {t("contactPage.company")}
                     </label>
                     <input
                       type="text"
@@ -250,12 +230,12 @@ const ContactPage = () => {
                       value={formData.company}
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-border bg-background text-foreground focus:border-accent focus:outline-none transition-colors"
-                      placeholder="Your company"
+                      placeholder={t("contactPage.companyPh")}
                     />
                   </div>
                   <div>
                     <label className="text-sm tracking-wider text-foreground/70 block mb-2">
-                      Country
+                      {t("contactPage.country")}
                     </label>
                     <input
                       type="text"
@@ -263,14 +243,14 @@ const ContactPage = () => {
                       value={formData.country}
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-border bg-background text-foreground focus:border-accent focus:outline-none transition-colors"
-                      placeholder="Your country"
+                      placeholder={t("contactPage.countryPh")}
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="text-sm tracking-wider text-foreground/70 block mb-2">
-                    Inquiry Type *
+                    {t("contactPage.inquiry")}
                   </label>
                   <select
                     name="inquiryType"
@@ -279,7 +259,7 @@ const ContactPage = () => {
                     required
                     className="w-full px-4 py-3 border border-border bg-background text-foreground focus:border-accent focus:outline-none transition-colors appearance-none cursor-pointer"
                   >
-                    <option value="">Select an option</option>
+                    <option value="">{t("contactPage.select")}</option>
                     {inquiryTypes.map(type => (
                       <option key={type.value} value={type.value}>
                         {type.label}
@@ -290,7 +270,7 @@ const ContactPage = () => {
 
                 <div>
                   <label className="text-sm tracking-wider text-foreground/70 block mb-2">
-                    Message *
+                    {t("contactPage.message")}
                   </label>
                   <textarea
                     name="message"
@@ -299,7 +279,7 @@ const ContactPage = () => {
                     required
                     rows={6}
                     className="w-full px-4 py-3 border border-border bg-background text-foreground focus:border-accent focus:outline-none transition-colors resize-none"
-                    placeholder="Tell us about your needs..."
+                    placeholder={t("contactPage.messagePh")}
                   />
                 </div>
 
@@ -311,10 +291,10 @@ const ContactPage = () => {
                   className="w-full md:w-auto px-12 py-4 bg-primary text-primary-foreground font-light tracking-[0.15em] uppercase text-sm hover:bg-primary/90 transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
-                    "Sending..."
+                    t("contactPage.sending")
                   ) : (
                     <>
-                      Send Message
+                      {t("contactPage.send")}
                       <Send className="w-4 h-4" />
                     </>
                   )}
@@ -326,26 +306,27 @@ const ContactPage = () => {
       </section>
 
       {/* Map Placeholder / CTA */}
-      <section className="py-24 md:py-32 bg-secondary">
+      <section className="relative overflow-hidden py-24 md:py-32 bg-secondary">
+        <EdgeRule src={marks.bar} className="top-8" />
+        <Mark src={marks.kilim} className="right-2 bottom-8 hidden h-32 md:block" />
         <div className="container mx-auto px-6 text-center">
           <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-            Visit Us
+            {t("contactPage.visit")}
           </span>
           <h2 className="font-serif text-4xl md:text-5xl text-primary font-light mb-6">
-            Our <span className="italic">Headquarters</span>
+            <Em text={t("contactPage.theHouse")} />
           </h2>
           <div className="gold-line mb-8" />
           <p className="text-muted-foreground max-w-2xl mx-auto mb-12">
-            Located in the heart of Tunisia, our facilities are open for visits by appointment. 
-            Experience firsthand the care and craftsmanship that goes into every bottle of CELIUM.
+            {t("contactPage.visitText")}
           </p>
           
           <div className="bg-primary/5 border border-border p-12 md:p-16 max-w-4xl mx-auto">
             <MapPin className="w-16 h-16 text-accent/30 mx-auto mb-6" strokeWidth={1} />
-            <p className="font-serif text-xl text-primary mb-2">CELIUM Natural Oils</p>
+            <p className="font-serif text-xl text-primary mb-2">Maison Frexes</p>
             <p className="text-muted-foreground">
-              Tunis, Tunisia<br />
-              Mediterranean Region
+              {t("footer.place")}<br />
+              {t("contactPage.placeLine")}
             </p>
           </div>
         </div>

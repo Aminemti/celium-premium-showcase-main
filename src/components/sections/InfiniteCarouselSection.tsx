@@ -2,29 +2,28 @@ import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 
-import carousel1 from "@/assets/carousel-1.jpg";
-import carousel2 from "@/assets/carousel-2.jpg";
-import carousel3 from "@/assets/carousel-3.jpg";
-import carousel4 from "@/assets/carousel-4.jpg";
-import carousel5 from "@/assets/carousel-5.jpg";
+import carousel1 from "@/assets/origin/thala-oil-light.jpg";
+import carousel2 from "../../../thala/Gemini_Generated_Image_qyl2f4qyl2f4qyl2.jpg";
+import carousel3 from "@/assets/origin/thala-fruit.jpg";
+import carousel4 from "@/assets/origin/thala-mill.jpg";
+import carousel5 from "../../../thala/Gemini_Generated_Image_xh0ogqxh0ogqxh0o.jpg";
+import { Em, useI18n } from "@/i18n/language";
+import { Mark, marks } from "@/components/decoration/OriginMarks";
 
-const carouselImages = [
-  { src: carousel1, alt: "Premium olive oil pouring" },
-  { src: carousel2, alt: "Tunisian olive grove at sunset" },
-  { src: carousel3, alt: "Fresh olives on branch" },
-  { src: carousel4, alt: "Traditional olive press" },
-  { src: carousel5, alt: "Olive oil tasting" },
-];
-
-// Duplicate multiple times for truly seamless loop
-const duplicatedImages = [...carouselImages, ...carouselImages, ...carouselImages, ...carouselImages];
+const sources = [carousel1, carousel2, carousel3, carousel4, carousel5];
 
 export const InfiniteCarouselSection = () => {
+  const { t, tm } = useI18n();
+  const alts = tm<string[]>("carousel.alts");
+  const carouselImages = sources.map((src, index) => ({ src, alt: alts[index] }));
+  const duplicatedImages = [...carouselImages, ...carouselImages, ...carouselImages, ...carouselImages];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section className="py-16 md:py-24 bg-primary relative overflow-hidden" ref={ref}>
+      <Mark src={marks.diamond} deep className="left-6 top-6 hidden h-12 md:block" />
+      <Mark src={marks.grove} deep className="right-8 top-7 hidden h-10 md:block" />
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-0 w-full h-full" 
@@ -43,10 +42,10 @@ export const InfiniteCarouselSection = () => {
         className="text-center mb-16 relative z-10 px-6"
       >
         <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-          Visual Journey
+          {t("carousel.kicker")}
         </span>
         <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary-foreground font-light mb-6">
-          Moments of <span className="italic">Excellence</span>
+          <Em text={t("carousel.title")} />
         </h2>
         <div className="h-px w-16 mx-auto bg-accent" />
       </motion.div>

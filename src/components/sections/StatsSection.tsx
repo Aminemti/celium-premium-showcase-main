@@ -1,36 +1,19 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-
-const stats = [
-  {
-    value: "150+",
-    label: "Years of Tradition",
-    description: "Generations of olive oil craftsmanship",
-  },
-  {
-    value: "25K",
-    label: "Olive Trees",
-    description: "Across our premium Tunisian estates",
-  },
-  {
-    value: "40+",
-    label: "Countries",
-    description: "Exporting to markets worldwide",
-  },
-  {
-    value: "100%",
-    label: "Natural",
-    description: "Pure, uncompromised quality",
-  },
-];
+import { Em, useI18n } from "@/i18n/language";
+import { Mark, marks } from "@/components/decoration/OriginMarks";
 
 export const StatsSection = () => {
+  const { t, tm } = useI18n();
+  const stats = tm<{ value: string; label: string; description: string }[]>("stats.items");
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section className="py-16 md:py-24 bg-secondary relative overflow-hidden" ref={ref}>
+      <Mark src={marks.grove} className="left-6 bottom-8 hidden h-12 md:block" />
+      <Mark src={marks.tree} className="right-6 top-16 hidden h-20 md:block" />
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
       <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
@@ -55,10 +38,10 @@ export const StatsSection = () => {
           className="text-center mb-16"
         >
           <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-            Our Legacy
+            {t("stats.kicker")}
           </span>
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary font-light mb-6">
-            Numbers That <span className="italic">Speak</span>
+            <Em text={t("stats.title")} />
           </h2>
           <div className="gold-line" />
         </motion.div>

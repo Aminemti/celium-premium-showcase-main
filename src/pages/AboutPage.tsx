@@ -3,44 +3,26 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import aboutHero from "@/assets/about-hero.jpg";
-import oliveGrove from "@/assets/olive-grove.jpg";
-import harvestDetail from "@/assets/harvest-detail.jpg";
+import aboutHero from "../../thala/Gemini_Generated_Image_qyl2f4qyl2f4qyl2.jpg";
+import oliveGrove from "@/assets/origin/thala-groves-dawn.jpg";
+import harvestDetail from "@/assets/origin/thala-hands.jpg";
+import mill from "@/assets/origin/thala-mill.jpg";
+import { thalaImages } from "@/data/cillitana";
 import { Heart, Globe, Award, Users } from "lucide-react";
+import { Em, useI18n } from "@/i18n/language";
+import { EdgeRule, Mark, marks } from "@/components/decoration/OriginMarks";
 
-const values = [
-  {
-    icon: Heart,
-    title: "Passion",
-    description: "Every bottle represents our deep love for olive oil craftsmanship, passed down through generations of Tunisian artisans.",
-  },
-  {
-    icon: Globe,
-    title: "Heritage",
-    description: "Rooted in Tunisia's rich agricultural tradition, we honor centuries of knowledge while embracing modern excellence.",
-  },
-  {
-    icon: Award,
-    title: "Excellence",
-    description: "Uncompromising standards guide every decision, from grove selection to final packaging.",
-  },
-  {
-    icon: Users,
-    title: "Partnership",
-    description: "We build lasting relationships with our clients, becoming trusted partners in their culinary journey.",
-  },
-];
-
-const timeline = [
-  { year: "1875", event: "Our family's first olive groves planted in Northern Tunisia" },
-  { year: "1920", event: "First cold-press facility established" },
-  { year: "1985", event: "Beginning of international exports" },
-  { year: "2010", event: "Launch of ARIVANO luxury line" },
-  { year: "2018", event: "Introduction of OLIVORE premium range" },
-  { year: "2024", event: "Expansion to 40+ countries worldwide" },
-];
+const valueIcons = [Heart, Globe, Award, Users];
 
 const AboutPage = () => {
+  const { t, tm } = useI18n();
+  const values = tm<{ title: string; description: string }[]>("housePage.values").map((value, index) => ({
+    ...value,
+    icon: valueIcons[index],
+  }));
+  const timeline = tm<{ year: string; event: string }[]>("housePage.timeline");
+  const studies = tm<{ kicker: string; title: string; text: string }[]>("collection.studies");
+  const studyImages = [thalaImages.colonnade, thalaImages.townBottle, mill, harvestDetail];
   const heroRef = useRef(null);
   const storyRef = useRef(null);
   const valuesRef = useRef(null);
@@ -60,11 +42,14 @@ const AboutPage = () => {
         <div className="absolute inset-0">
           <img
             src={aboutHero}
-            alt="Tunisian olive grove"
+            alt={t("housePage.altHero")}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/50 to-primary/80" />
         </div>
+        <Mark src={marks.diamond} deep className="left-6 top-28 hidden h-16 md:block" />
+        <Mark src={marks.spine} deep className="right-6 top-28 hidden h-44 lg:block" />
+        <Mark src={marks.tree} deep className="bottom-8 left-8 hidden h-24 md:block" />
         
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -73,21 +58,24 @@ const AboutPage = () => {
           className="relative z-10 text-center px-6"
         >
           <span className="text-gold-light text-sm tracking-[0.3em] uppercase mb-4 block">
-            Our Story
+            {t("housePage.kicker")}
           </span>
           <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-primary-foreground font-light mb-6">
-            About <span className="italic">CELIUM</span>
+            Maison <span className="italic">Frexes</span>
           </h1>
           <div className="gold-line mb-8" />
           <p className="text-primary-foreground/80 text-lg md:text-xl max-w-2xl mx-auto">
-            A legacy of excellence, crafted in the heart of Tunisia's olive country.
+            {t("housePage.lead")}
           </p>
         </motion.div>
       </section>
 
       {/* Story Section */}
-      <section ref={storyRef} className="py-24 md:py-32 bg-background">
-        <div className="container mx-auto px-6">
+      <section ref={storyRef} className="relative overflow-hidden py-24 md:py-32 bg-background">
+        <EdgeRule src={marks.bar} className="top-8" />
+        <Mark src={marks.crescent} className="-left-6 top-24 hidden h-72 xl:block" />
+        <Mark src={marks.grove} className="bottom-10 right-8 hidden h-14 md:block" />
+        <div className="container relative z-10 mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -95,32 +83,22 @@ const AboutPage = () => {
               transition={{ duration: 1 }}
             >
               <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-                The Beginning
+                {t("housePage.presentation")}
               </span>
               <h2 className="font-serif text-4xl md:text-5xl text-primary font-light mb-8">
-                A Tunisian <span className="italic">Legacy</span>
+                <Em text={t("housePage.enter")} />
               </h2>
               <div className="gold-line mb-8 mx-0" />
               
               <div className="space-y-6 text-foreground/70 leading-relaxed">
                 <p>
-                  CELIUM Natural Oils was born from a simple yet profound belief: that 
-                  Tunisia's exceptional olives deserve to be shared with the world in their 
-                  purest, most exquisite form.
+                  {t("housePage.p1")}
                 </p>
                 <p>
-                  Our journey began in the sun-drenched groves of Northern Tunisia, where 
-                  our founding family first cultivated olive trees over a century ago. 
-                  Through generations of careful stewardship, we have preserved the ancient 
-                  wisdom of olive oil production while embracing innovations that enhance 
-                  quality without compromising authenticity.
+                  {t("housePage.p2")}
                 </p>
                 <p>
-                  Today, CELIUM stands as a beacon of Tunisian excellence, exporting 
-                  premium olive oils to discerning markets across the globe. Every bottle 
-                  carries the essence of our heritage—the warmth of Mediterranean sun, 
-                  the richness of Tunisian soil, and the passion of artisans who treat 
-                  each harvest as a sacred trust.
+                  {t("housePage.p3")}
                 </p>
               </div>
             </motion.div>
@@ -134,7 +112,7 @@ const AboutPage = () => {
               <div className="relative">
                 <img
                   src={oliveGrove}
-                  alt="Ancient olive grove"
+                  alt={t("housePage.altGrove")}
                   className="w-full h-[400px] object-cover"
                 />
                 <div className="absolute inset-4 border border-accent/30 pointer-events-none" />
@@ -145,9 +123,9 @@ const AboutPage = () => {
                 transition={{ duration: 0.8, delay: 0.5 }}
                 className="absolute -bottom-8 -left-8 bg-primary p-8 hidden lg:block"
               >
-                <span className="font-serif text-4xl text-gold-light block">150+</span>
+                <span className="font-serif text-4xl text-gold-light block">{t("housePage.tala")}</span>
                 <span className="text-primary-foreground/70 text-sm tracking-[0.2em] uppercase">
-                  Years of Heritage
+                  {t("housePage.theLand")}
                 </span>
               </motion.div>
             </motion.div>
@@ -156,20 +134,20 @@ const AboutPage = () => {
       </section>
 
       {/* Mission Section */}
-      <section className="py-24 md:py-32 bg-secondary">
+      <section className="relative overflow-hidden py-24 md:py-32 bg-secondary">
+        <Mark src={marks.loom} className="right-0 top-12 hidden h-64 lg:block" />
+        <Mark src={marks.kilim} className="bottom-8 left-4 hidden h-28 md:block" />
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
             <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-              Our Mission
+              {t("housePage.signature")}
             </span>
             <h2 className="font-serif text-4xl md:text-5xl text-primary font-light mb-8">
-              Crafting <span className="italic">Liquid Gold</span>
+              <Em text={t("housePage.notShop")} />
             </h2>
             <div className="gold-line mb-8" />
             <blockquote className="font-serif text-2xl md:text-3xl text-foreground/80 italic leading-relaxed mb-8">
-              "To share the finest expression of Tunisian olive oil with the world, 
-              honoring tradition through uncompromising quality and sustainable practices 
-              that preserve our land for future generations."
+              {t("housePage.quote")}
             </blockquote>
             <div className="flex justify-center">
               <div className="h-px w-24 bg-accent/30" />
@@ -178,9 +156,31 @@ const AboutPage = () => {
         </div>
       </section>
 
+      <div className="relative overflow-hidden bg-[hsl(42,38%,91%)]">
+        <Mark src={marks.loom} className="left-0 top-16 hidden h-56 lg:block" />
+        <Mark src={marks.lattice} className="-right-6 top-1/4 hidden h-56 xl:block" />
+        {studies.map((study, index) => (
+          <section key={study.title} className="relative overflow-hidden py-16 md:py-24">
+            <div className="container relative z-10 mx-auto grid items-center gap-10 px-6 md:grid-cols-2 md:gap-16">
+              <figure className={index % 2 === 1 ? "md:order-2" : ""}>
+                <img src={studyImages[index] || studyImages[0]} alt="" className="h-[52vh] min-h-[320px] w-full object-cover" />
+              </figure>
+              <div className={index % 2 === 1 ? "md:order-1" : ""}>
+                <p className="text-accent text-xs tracking-[0.28em] uppercase">{study.kicker}</p>
+                <h2 className="mt-4 font-serif text-4xl md:text-5xl font-light text-primary">{study.title}</h2>
+                <div className="gold-line mx-0 my-6" />
+                <p className="text-lg leading-relaxed text-muted-foreground">{study.text}</p>
+              </div>
+            </div>
+          </section>
+        ))}
+      </div>
+
       {/* Values Section */}
-      <section ref={valuesRef} className="py-24 md:py-32 bg-background">
-        <div className="container mx-auto px-6">
+      <section ref={valuesRef} className="relative overflow-hidden py-24 md:py-32 bg-background">
+        <EdgeRule src={marks.bar} className="bottom-8" />
+        <Mark src={marks.lattice} className="-right-4 top-16 hidden h-56 xl:block" />
+        <div className="container relative z-10 mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isValuesInView ? { opacity: 1, y: 0 } : {}}
@@ -188,10 +188,10 @@ const AboutPage = () => {
             className="text-center mb-16"
           >
             <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-              What Drives Us
+              {t("housePage.keeps")}
             </span>
             <h2 className="font-serif text-4xl md:text-5xl text-primary font-light mb-6">
-              Our <span className="italic">Values</span>
+              <Em text={t("housePage.measures")} />
             </h2>
             <div className="gold-line" />
           </motion.div>
@@ -222,28 +222,31 @@ const AboutPage = () => {
       </section>
 
       {/* Harvest Image Section */}
-      <section className="relative h-[50vh] min-h-[400px]">
+      <section className="relative h-[50vh] min-h-[400px] overflow-hidden">
         <img
           src={harvestDetail}
-          alt="Olive harvest"
+          alt={t("housePage.altHarvest")}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-primary/60 flex items-center justify-center">
           <div className="text-center px-6">
             <h3 className="font-serif text-3xl md:text-4xl text-primary-foreground mb-4">
-              Every Olive, <span className="italic">Hand-Selected</span>
+              <Em text={t("housePage.byHand")} />
             </h3>
             <p className="text-primary-foreground/70 max-w-xl mx-auto">
-              Our commitment to quality begins at the harvest, where experienced hands 
-              select only the finest olives at their peak of ripeness.
+              {t("housePage.byHandText")}
             </p>
           </div>
         </div>
+        <Mark src={marks.bar} deep className="left-6 top-1/2 z-20 hidden h-8 -translate-y-1/2 md:block" />
+        <Mark src={marks.bar} deep className="right-6 top-1/2 z-20 hidden h-8 -translate-y-1/2 -scale-x-100 md:block" />
       </section>
 
       {/* Timeline Section */}
-      <section ref={timelineRef} className="py-24 md:py-32 bg-primary">
-        <div className="container mx-auto px-6">
+      <section ref={timelineRef} className="relative overflow-hidden py-24 md:py-32 bg-primary">
+        <Mark src={marks.lattice} deep className="left-4 top-16 hidden h-44 md:block" />
+        <Mark src={marks.diamond} deep className="bottom-6 right-6 hidden h-28 md:block" />
+        <div className="container relative z-10 mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isTimelineInView ? { opacity: 1, y: 0 } : {}}
@@ -251,10 +254,10 @@ const AboutPage = () => {
             className="text-center mb-16"
           >
             <span className="text-gold-light text-sm tracking-[0.3em] uppercase mb-4 block">
-              Our Journey
+              {t("housePage.heritage")}
             </span>
             <h2 className="font-serif text-4xl md:text-5xl text-primary-foreground font-light mb-6">
-              A Timeline of <span className="italic">Excellence</span>
+              <Em text={t("housePage.fromLand")} />
             </h2>
             <div className="gold-line" />
           </motion.div>

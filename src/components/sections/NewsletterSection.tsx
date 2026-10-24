@@ -3,8 +3,11 @@ import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Em, useI18n } from "@/i18n/language";
+import { Mark, marks } from "@/components/decoration/OriginMarks";
 
 export const NewsletterSection = () => {
+  const { t } = useI18n();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [email, setEmail] = useState("");
@@ -14,8 +17,8 @@ export const NewsletterSection = () => {
     e.preventDefault();
     if (email) {
       toast({
-        title: "Welcome to the CELIUM Family",
-        description: "You've been added to our exclusive newsletter.",
+        title: t("newsletter.toastTitle"),
+        description: t("newsletter.toastBody"),
       });
       setEmail("");
     }
@@ -26,6 +29,8 @@ export const NewsletterSection = () => {
       className="py-16 md:py-24 bg-primary relative overflow-hidden"
       ref={ref}
     >
+      <Mark src={marks.lattice} deep className="left-2 top-10 hidden h-44 md:block" />
+      <Mark src={marks.spine} deep className="bottom-6 right-6 hidden h-40 lg:block" />
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-5">
         <div
@@ -61,15 +66,14 @@ export const NewsletterSection = () => {
             transition={{ duration: 1 }}
           >
             <span className="text-gold-light text-sm tracking-[0.3em] uppercase mb-4 block">
-              Stay Connected
+              {t("newsletter.kicker")}
             </span>
             <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary-foreground font-light mb-6">
-              Join the <span className="italic">CELIUM</span> Circle
+              <Em text={t("newsletter.title")} />
             </h2>
             <div className="gold-line mb-8" />
             <p className="text-primary-foreground/70 text-lg leading-relaxed mb-12 max-w-xl mx-auto">
-              Be the first to discover new products, exclusive offers, and insights
-              into the world of premium olive oil craftsmanship.
+              {t("newsletter.intro")}
             </p>
           </motion.div>
 
@@ -85,7 +89,7 @@ export const NewsletterSection = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder={t("newsletter.placeholder")}
                 className="w-full px-6 py-4 bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:border-gold-light transition-colors duration-300 text-sm tracking-wider"
                 required
               />
@@ -96,7 +100,7 @@ export const NewsletterSection = () => {
               type="submit"
               className="group px-8 py-4 bg-accent text-accent-foreground font-light tracking-[0.15em] uppercase text-sm hover:shadow-gold transition-all duration-300 flex items-center justify-center gap-2"
             >
-              Subscribe
+              {t("newsletter.receive")}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             </motion.button>
           </motion.form>
@@ -107,7 +111,7 @@ export const NewsletterSection = () => {
             transition={{ duration: 1, delay: 0.5 }}
             className="text-primary-foreground/40 text-xs mt-6 tracking-wider"
           >
-            By subscribing, you agree to receive our newsletter. Unsubscribe anytime.
+            {t("newsletter.note")}
           </motion.p>
         </div>
       </div>

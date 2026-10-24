@@ -4,61 +4,27 @@ import { useRef } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import qualityBadge from "@/assets/quality-badge.jpg";
-import harvestDetail from "@/assets/harvest-detail.jpg";
-import processHero from "@/assets/process-hero.jpg";
+import harvestDetail from "@/assets/origin/thala-hands.jpg";
+import processHero from "@/assets/origin/thala-mill.jpg";
 import { Shield, Leaf, Award, Sparkles, CheckCircle, Beaker, ThermometerSun, Eye } from "lucide-react";
+import { Em, useI18n } from "@/i18n/language";
+import { EdgeRule, Mark, marks } from "@/components/decoration/OriginMarks";
 
-const qualityPillars = [
-  {
-    icon: Leaf,
-    title: "Careful Selection",
-    description: "Every olive is hand-picked at the optimal moment of ripeness. Our expert harvesters know exactly when each variety reaches its peak, ensuring the purest flavor profile and highest nutritional value in every drop.",
-  },
-  {
-    icon: Shield,
-    title: "Uncompromising Purity",
-    description: "Zero additives, zero shortcuts. Our oils are 100% natural, free from any artificial enhancers, preservatives, or blending with lesser oils. What you taste is pure Tunisian olive excellence.",
-  },
-  {
-    icon: Award,
-    title: "Excellence Certified",
-    description: "Every batch undergoes rigorous laboratory testing and sensory evaluation by trained experts. We meet and exceed the highest international standards for olive oil quality.",
-  },
-  {
-    icon: Sparkles,
-    title: "Artisanal Process",
-    description: "Traditional cold-pressing methods meet modern precision. We preserve the authentic character of Tunisian olive oil while ensuring consistent quality across every bottle.",
-  },
-];
-
-const testingProcess = [
-  {
-    icon: Beaker,
-    title: "Chemical Analysis",
-    description: "Free acidity, peroxide value, UV absorbance, and fatty acid composition are tested in our on-site laboratory.",
-  },
-  {
-    icon: Eye,
-    title: "Sensory Evaluation",
-    description: "Trained panelists assess aroma, taste, and mouthfeel according to international olive oil council standards.",
-  },
-  {
-    icon: ThermometerSun,
-    title: "Freshness Testing",
-    description: "We monitor oxidation levels and ensure optimal storage conditions to preserve freshness until bottling.",
-  },
-];
-
-const certifications = [
-  "ISO 22000 Food Safety",
-  "HACCP Certified",
-  "IOC Standards Compliant",
-  "EU Quality Mark",
-  "Organic Certification Available",
-  "Halal Certified",
-];
+const pillarIcons = [Leaf, Shield, Award, Sparkles];
+const testIcons = [Beaker, Eye, ThermometerSun];
 
 const QualityPage = () => {
+  const { t, tm } = useI18n();
+  const qualityPillars = tm<{ title: string; description: string }[]>("craftPage.pillars").map((item, index) => ({
+    ...item,
+    icon: pillarIcons[index],
+  }));
+  const testingProcess = tm<{ title: string; description: string }[]>("craftPage.tests").map((item, index) => ({
+    ...item,
+    icon: testIcons[index],
+  }));
+  const certifications = tm<string[]>("craftPage.certs");
+  const promises = tm<{ title: string; description: string }[]>("craftPage.promises");
   const heroRef = useRef(null);
   const pillarsRef = useRef(null);
   const processRef = useRef(null);
@@ -84,7 +50,10 @@ const QualityPage = () => {
             }}
           />
         </div>
-        
+        <Mark src={marks.spine} deep className="left-5 top-28 hidden h-40 lg:block" />
+        <Mark src={marks.grove} deep className="bottom-8 left-10 hidden h-12 md:block" />
+        <Mark src={marks.diamond} deep className="bottom-10 right-8 hidden h-20 md:block" />
+
         <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -92,15 +61,14 @@ const QualityPage = () => {
             transition={{ duration: 1 }}
           >
             <span className="text-gold-light text-sm tracking-[0.3em] uppercase mb-4 block">
-              Our Commitment
+              {t("craftPage.kicker")}
             </span>
             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-primary-foreground font-light mb-6">
-              Uncompromising <span className="italic">Quality</span>
+              <span className="italic">{t("heritagePage.savoir")}</span>
             </h1>
             <div className="gold-line mx-0 mb-8" />
             <p className="text-primary-foreground/70 text-lg md:text-xl max-w-xl">
-              From grove to bottle, every step reflects our dedication to delivering 
-              nothing but the finest natural oils to discerning palates worldwide.
+              {t("craftPage.lead")}
             </p>
           </motion.div>
 
@@ -113,7 +81,7 @@ const QualityPage = () => {
             <div className="relative">
               <img
                 src={qualityBadge}
-                alt="Quality certification badge"
+                alt={t("craftPage.altBadge")}
                 className="w-80 h-80 object-cover mx-auto rounded-full shadow-gold"
               />
               <div className="absolute inset-0 rounded-full border-2 border-gold-light/30 scale-110" />
@@ -123,8 +91,11 @@ const QualityPage = () => {
       </section>
 
       {/* Quality Pillars */}
-      <section ref={pillarsRef} className="py-24 md:py-32 bg-background">
-        <div className="container mx-auto px-6">
+      <section ref={pillarsRef} className="relative overflow-hidden py-24 md:py-32 bg-background">
+        <EdgeRule src={marks.bar} className="top-8" />
+        <Mark src={marks.crescent} className="-right-4 top-16 hidden h-72 xl:block" />
+        <Mark src={marks.tree} className="bottom-6 left-6 hidden h-24 md:block" />
+        <div className="container relative z-10 mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isPillarsInView ? { opacity: 1, y: 0 } : {}}
@@ -132,10 +103,10 @@ const QualityPage = () => {
             className="text-center mb-20"
           >
             <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-              The Four Pillars
+              {t("craftPage.four")}
             </span>
             <h2 className="font-serif text-4xl md:text-5xl text-primary font-light mb-6">
-              Foundations of <span className="italic">Excellence</span>
+              <Em text={t("craftPage.foundations")} />
             </h2>
             <div className="gold-line" />
           </motion.div>
@@ -167,19 +138,23 @@ const QualityPage = () => {
       <section className="relative h-[40vh] min-h-[300px]">
         <img
           src={harvestDetail}
-          alt="Olive harvest detail"
+          alt={t("housePage.altHarvest")}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-primary/70 flex items-center justify-center">
-          <blockquote className="font-serif text-2xl md:text-3xl lg:text-4xl text-primary-foreground italic text-center max-w-3xl px-6">
-            "Quality is not an act, it is a habit — embedded in every stage of our process."
+          <Mark src={marks.bar} deep className="left-6 top-1/2 hidden h-8 -translate-y-1/2 md:block" />
+          <Mark src={marks.bar} deep className="right-6 top-1/2 hidden h-8 -translate-y-1/2 -scale-x-100 md:block" />
+          <blockquote className="relative z-10 font-serif text-2xl md:text-3xl lg:text-4xl text-primary-foreground italic text-center max-w-3xl px-6">
+            {t("craftPage.quote")}
           </blockquote>
         </div>
       </section>
 
       {/* Testing Process */}
-      <section ref={processRef} className="py-24 md:py-32 bg-secondary">
-        <div className="container mx-auto px-6">
+      <section ref={processRef} className="relative overflow-hidden py-24 md:py-32 bg-secondary">
+        <Mark src={marks.loom} className="bottom-4 left-0 hidden h-60 lg:block" />
+        <Mark src={marks.grove} className="right-8 top-10 h-12" />
+        <div className="container relative z-10 mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -187,17 +162,14 @@ const QualityPage = () => {
               transition={{ duration: 1 }}
             >
               <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-                Quality Control
+                {t("craftPage.sequence")}
               </span>
               <h2 className="font-serif text-4xl md:text-5xl text-primary font-light mb-6">
-                Rigorous <span className="italic">Testing</span>
+                <Em text={t("craftPage.fruit")} />
               </h2>
               <div className="gold-line mx-0 mb-8" />
               <p className="text-foreground/70 leading-relaxed mb-10">
-                Every batch of CELIUM oil undergoes comprehensive testing before 
-                it earns our seal of approval. Our state-of-the-art laboratory 
-                and trained sensory panels ensure that only oils meeting our 
-                exacting standards reach your table.
+                {t("craftPage.sequenceText")}
               </p>
 
               <div className="space-y-8">
@@ -230,7 +202,7 @@ const QualityPage = () => {
               <div className="relative overflow-hidden">
                 <img
                   src={processHero}
-                  alt="Quality testing process"
+                  alt={t("process.alt")}
                   className="w-full h-[500px] object-cover"
                 />
                 <div className="absolute inset-4 border border-accent/30 pointer-events-none" />
@@ -241,8 +213,11 @@ const QualityPage = () => {
       </section>
 
       {/* Certifications */}
-      <section ref={certRef} className="py-24 md:py-32 bg-primary">
-        <div className="container mx-auto px-6">
+      <section ref={certRef} className="relative overflow-hidden py-24 md:py-32 bg-primary">
+        <Mark src={marks.lattice} deep className="-left-4 top-6 hidden h-56 md:block" />
+        <Mark src={marks.spine} deep className="bottom-4 right-4 hidden h-44 lg:block" />
+        <EdgeRule src={marks.bar} deep className="bottom-8" />
+        <div className="container relative z-10 mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isCertInView ? { opacity: 1, y: 0 } : {}}
@@ -250,15 +225,14 @@ const QualityPage = () => {
             className="text-center mb-16"
           >
             <span className="text-gold-light text-sm tracking-[0.3em] uppercase mb-4 block">
-              Recognized Excellence
+              {t("craftPage.kept")}
             </span>
             <h2 className="font-serif text-4xl md:text-5xl text-primary-foreground font-light mb-6">
-              Our <span className="italic">Certifications</span>
+              <Em text={t("craftPage.marks")} />
             </h2>
             <div className="gold-line mb-8" />
             <p className="text-primary-foreground/70 max-w-2xl mx-auto">
-              We maintain the highest industry certifications, ensuring our products 
-              meet global standards for safety, quality, and authenticity.
+              {t("craftPage.keptText")}
             </p>
           </motion.div>
 
@@ -280,28 +254,25 @@ const QualityPage = () => {
       </section>
 
       {/* Quality Promise */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="container mx-auto px-6">
+      <section className="relative overflow-hidden py-24 md:py-32 bg-background">
+        <Mark src={marks.kilim} className="right-2 top-8 hidden h-40 md:block" />
+        <Mark src={marks.tree} className="bottom-6 left-6 hidden h-20 md:block" />
+        <div className="container relative z-10 mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
             <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-              Our Promise
+              {t("craftPage.promise")}
             </span>
             <h2 className="font-serif text-4xl md:text-5xl text-primary font-light mb-8">
-              The CELIUM <span className="italic">Guarantee</span>
+              <Em text={t("craftPage.nameTitle")} />
             </h2>
             <div className="gold-line mb-8" />
             <p className="text-foreground/70 text-lg leading-relaxed mb-12">
-              We stand behind every bottle that bears the CELIUM name. Our quality 
-              guarantee ensures that if you're ever unsatisfied with the quality 
-              of our products, we will make it right. This is our commitment to 
-              you, our valued partner in the pursuit of culinary excellence.
+              {t("craftPage.promiseText")}
             </p>
             
             <div className="grid md:grid-cols-3 gap-8">
               {[
-                { title: "100% Authentic", description: "Pure Tunisian olive oil, never blended" },
-                { title: "Fresh Guarantee", description: "Optimal shelf life from production" },
-                { title: "Traceability", description: "Full transparency from grove to bottle" },
+                ...promises,
               ].map((item, index) => (
                 <motion.div
                   key={item.title}

@@ -1,14 +1,20 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import oliveGrove from "@/assets/olive-grove.jpg";
+import oliveGrove from "@/assets/origin/thala-groves-dawn.jpg";
+import { useI18n } from "@/i18n/language";
+import { EdgeRule, Mark, marks } from "@/components/decoration/OriginMarks";
 
 export const AboutSection = () => {
+  const { t } = useI18n();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section id="about" className="py-16 md:py-24 bg-background relative overflow-hidden" ref={ref}>
+      <EdgeRule src={marks.bar} className="top-6" />
+      <Mark src={marks.crescent} className="-left-4 top-24 hidden h-64 xl:block" />
+      <Mark src={marks.tree} className="bottom-8 right-6 hidden h-24 md:block" />
       {/* Classical Background Pattern */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
         <div
@@ -28,7 +34,7 @@ export const AboutSection = () => {
       {/* Classical Side Inscriptions */}
       <div className="absolute left-8 top-1/2 -translate-y-1/2 hidden xl:block pointer-events-none">
         <p className="roman-inscription opacity-10 -rotate-90 whitespace-nowrap" style={{ fontFamily: "Cormorant Garamond, serif" }}>
-          HERITAGE · TRADITION · EXCELLENCE
+          {t("about.inscription")}
         </p>
       </div>
 
@@ -44,7 +50,7 @@ export const AboutSection = () => {
             <div className="relative overflow-hidden">
               <img
                 src={oliveGrove}
-                alt="Tunisian olive grove"
+                alt={t("about.alt")}
                 className="w-full h-[500px] object-cover"
               />
               {/* Classical Gold Frame */}
@@ -77,12 +83,12 @@ export const AboutSection = () => {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block"
             >
-              Our Story
+              {t("about.kicker")}
             </motion.span>
 
             <div className="relative">
               <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary font-light mb-8 leading-tight">
-                About <span className="italic">CELIUM</span>
+                Maison <span className="italic">Frexes</span>
               </h2>
               {/* Classical Decorative Element */}
               <div className="absolute -left-4 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold/20 to-transparent hidden lg:block" />
@@ -94,23 +100,15 @@ export const AboutSection = () => {
             </div>
 
             <p className="text-foreground/80 text-lg leading-relaxed mb-6">
-              CELIUM Natural Oils is a distinguished Tunisian company specialized
-              in crafting the finest olive oils and natural oils, with an unwavering commitment to
-              premium quality destined for the most discerning international
-              markets.
+              {t("about.p1")}
             </p>
 
             <p className="text-foreground/70 leading-relaxed mb-8">
-              Our journey began in the sun-drenched groves of Tunisia, where
-              centuries of tradition meet modern excellence. We believe that
-              nature's purest gifts—from exceptional olive oils to rare natural oils—deserve nothing less than perfection, from
-              careful cultivation to artisanal extraction and exquisite packaging.
+              {t("about.p2")}
             </p>
 
             <p className="text-foreground/70 leading-relaxed">
-              Whether you seek premium olive oils, natural oils, or bespoke packaging and preservation solutions, CELIUM
-              offers comprehensive services with high-end luxury branding that reflects
-              the exceptional quality within every bottle.
+              {t("about.p3")}
             </p>
 
             <motion.div
@@ -120,23 +118,23 @@ export const AboutSection = () => {
               className="mt-10 flex items-center gap-8"
             >
               <div className="text-center">
-                <span className="font-serif text-4xl text-accent block">100%</span>
+                <span className="font-serif text-3xl text-accent block">{t("about.pure")}</span>
                 <span className="text-sm tracking-[0.2em] text-muted-foreground uppercase">
-                  Natural
+                  {t("about.authentic")}
                 </span>
               </div>
               <div className="w-px h-12 bg-border" />
               <div className="text-center">
-                <span className="font-serif text-4xl text-accent block">Premium</span>
+                <span className="font-serif text-3xl text-accent block">{t("about.quiet")}</span>
                 <span className="text-sm tracking-[0.2em] text-muted-foreground uppercase">
-                  Quality
+                  {t("about.elegance")}
                 </span>
               </div>
               <div className="w-px h-12 bg-border" />
               <div className="text-center">
-                <span className="font-serif text-4xl text-accent block">Global</span>
+                <span className="font-serif text-3xl text-accent block">{t("about.true")}</span>
                 <span className="text-sm tracking-[0.2em] text-muted-foreground uppercase">
-                  Reach
+                  {t("about.trust")}
                 </span>
               </div>
             </motion.div>

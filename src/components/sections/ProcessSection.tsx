@@ -1,37 +1,24 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import processHero from "@/assets/process-hero.jpg";
-
-const steps = [
-  {
-    number: "01",
-    title: "Harvest",
-    description: "Hand-picked at the perfect moment of ripeness, our olives and natural ingredients are carefully selected from centuries-old groves and pristine sources in Tunisia's finest regions.",
-  },
-  {
-    number: "02",
-    title: "Selection",
-    description: "Only the finest olives make the cut. Each batch undergoes meticulous quality control to ensure only premium fruit proceeds to extraction.",
-  },
-  {
-    number: "03",
-    title: "Cold Press",
-    description: "Within hours of harvest, olives are cold-pressed at temperatures below 27°C, preserving the delicate flavors and nutritional properties.",
-  },
-  {
-    number: "04",
-    title: "Refinement",
-    description: "Our master blenders craft the perfect balance, ensuring each bottle meets the exacting standards of the CELIUM name.",
-  },
-];
+import processHero from "@/assets/origin/thala-mill.jpg";
+import { Em, useI18n } from "@/i18n/language";
+import { EdgeRule, Mark, marks } from "@/components/decoration/OriginMarks";
 
 export const ProcessSection = () => {
+  const { t, tm } = useI18n();
+  const steps = tm<{ title: string; description: string }[]>("process.steps").map((step, index) => ({
+    ...step,
+    number: String(index + 1).padStart(2, "0"),
+  }));
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section className="py-16 md:py-24 bg-background relative overflow-hidden" ref={ref}>
+      <EdgeRule src={marks.bar} className="top-6" />
+      <Mark src={marks.lattice} className="-right-6 top-20 hidden h-64 xl:block" />
+      <Mark src={marks.tree} className="bottom-6 left-6 hidden h-20 md:block" />
       {/* Classical Background Inscription */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden xl:block pointer-events-none">
         <p className="roman-inscription text-6xl opacity-[0.02] whitespace-nowrap" style={{ fontFamily: "Cormorant Garamond, serif" }}>
@@ -48,15 +35,14 @@ export const ProcessSection = () => {
           className="text-center mb-20"
         >
           <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-            The Journey
+            {t("process.kicker")}
           </span>
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary font-light mb-6">
-            From Grove to <span className="italic">Bottle</span>
+            <Em text={t("process.title")} />
           </h2>
           <div className="gold-line mb-8" />
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            A meticulous process perfected over generations, ensuring every drop 
-            captures the essence of Tunisia's finest olives and natural ingredients.
+            {t("process.intro")}
           </p>
         </motion.div>
 
@@ -71,7 +57,7 @@ export const ProcessSection = () => {
             <div className="relative overflow-hidden">
               <img
                 src={processHero}
-                alt="Olive oil production process"
+                alt="The craft of the olive"
                 className="w-full h-[500px] lg:h-[600px] object-cover"
               />
               {/* Overlay gradient */}
@@ -92,7 +78,7 @@ export const ProcessSection = () => {
               className="absolute -bottom-8 -right-8 bg-accent text-accent-foreground p-6 hidden lg:flex flex-col items-center justify-center"
             >
               <span className="font-serif text-3xl">100%</span>
-              <span className="text-xs tracking-[0.2em] uppercase">Cold Pressed</span>
+              <span className="text-xs tracking-[0.2em] uppercase">{t("process.cold")}</span>
             </motion.div>
           </motion.div>
 

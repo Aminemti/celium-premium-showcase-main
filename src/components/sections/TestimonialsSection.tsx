@@ -2,29 +2,15 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
-
-const testimonials = [
-  {
-    quote: "CELIUM's ARIVANO has redefined what we consider premium olive oil. The depth of flavor and the commitment to quality is unmatched in the industry.",
-    author: "Jean-Pierre Dubois",
-    role: "Executive Chef",
-    company: "Le Bernardin, Paris",
-  },
-  {
-    quote: "As a distributor for luxury food products, CELIUM stands out. Their attention to detail from production to packaging represents true artisanal excellence.",
-    author: "Maria Fernandez",
-    role: "Import Director",
-    company: "Gourmet Europa",
-  },
-  {
-    quote: "The purity and authenticity of CELIUM oils have made them our exclusive choice. Our customers recognize and appreciate the difference.",
-    author: "Henrik Johansson",
-    role: "Founder",
-    company: "Nordic Fine Foods",
-  },
-];
+import { Em, useI18n } from "@/i18n/language";
+import { Mark, marks } from "@/components/decoration/OriginMarks";
 
 export const TestimonialsSection = () => {
+  const { t, tm } = useI18n();
+  const testimonials = tm<{ quote: string; author: string; role: string }[]>("voices.items").map((item) => ({
+    ...item,
+    company: "Maison Frexes",
+  }));
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -39,6 +25,8 @@ export const TestimonialsSection = () => {
 
   return (
     <section className="py-16 md:py-24 bg-background relative overflow-hidden" ref={ref}>
+      <Mark src={marks.loom} className="left-0 top-20 hidden h-52 lg:block" />
+      <Mark src={marks.kilim} className="bottom-6 right-4 hidden h-28 md:block" />
       {/* Decorative olive branch pattern */}
       <div className="absolute top-20 left-10 w-32 h-32 border border-accent/10 rounded-full opacity-50" />
       <div className="absolute bottom-20 right-10 w-48 h-48 border border-accent/10 rounded-full opacity-50" />
@@ -52,10 +40,10 @@ export const TestimonialsSection = () => {
           className="text-center mb-16"
         >
           <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-            Testimonials
+            {t("voices.kicker")}
           </span>
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary font-light mb-6">
-            Trusted by <span className="italic">Excellence</span>
+            <Em text={t("voices.title")} />
           </h2>
           <div className="gold-line" />
         </motion.div>

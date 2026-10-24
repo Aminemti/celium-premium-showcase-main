@@ -2,40 +2,24 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Leaf, Award, Shield, Sparkles } from "lucide-react";
+import { Em, useI18n } from "@/i18n/language";
+import { Mark, marks } from "@/components/decoration/OriginMarks";
 
-const qualities = [
-  {
-    icon: Leaf,
-    title: "Careful Selection",
-    description:
-      "Every olive is hand-picked at the optimal moment of ripeness, ensuring the purest flavor profile and highest nutritional value.",
-  },
-  {
-    icon: Award,
-    title: "Artisanal Process",
-    description:
-      "Traditional cold-pressing methods meet modern precision, preserving the authentic character of Tunisian olive oil.",
-  },
-  {
-    icon: Shield,
-    title: "Uncompromising Purity",
-    description:
-      "Zero additives, zero shortcuts. Our oils are 100% natural, free from any artificial enhancers or preservatives.",
-  },
-  {
-    icon: Sparkles,
-    title: "Excellence Certified",
-    description:
-      "Every batch undergoes rigorous quality testing to meet the highest international standards of excellence.",
-  },
-];
+const icons = [Leaf, Award, Shield, Sparkles];
 
 export const QualitySection = () => {
+  const { t, tm } = useI18n();
+  const qualities = tm<{ title: string; description: string }[]>("quality.items").map((item, index) => ({
+    ...item,
+    icon: icons[index],
+  }));
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section id="quality" className="py-16 md:py-24 bg-primary relative overflow-hidden" ref={ref}>
+      <Mark src={marks.lattice} deep className="left-2 top-16 hidden h-48 md:block" />
+      <Mark src={marks.diamond} deep className="bottom-8 right-6 hidden h-24 md:block" />
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div
@@ -63,15 +47,14 @@ export const QualitySection = () => {
           className="text-center mb-20"
         >
           <span className="text-gold-light text-sm tracking-[0.3em] uppercase mb-4 block">
-            Our Commitment
+            {t("quality.kicker")}
           </span>
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary-foreground font-light mb-6">
-            Uncompromising <span className="italic">Quality</span>
+            <Em text={t("quality.title")} />
           </h2>
           <div className="gold-line mb-8" />
           <p className="text-primary-foreground/70 max-w-2xl mx-auto text-lg">
-            From grove to bottle, every step reflects our dedication to delivering
-            nothing but the finest natural oils.
+            {t("quality.intro")}
           </p>
         </motion.div>
 
@@ -117,8 +100,7 @@ export const QualitySection = () => {
           className="mt-20 text-center"
         >
           <blockquote className="font-serif text-2xl md:text-3xl text-primary-foreground/80 italic max-w-3xl mx-auto">
-            "We don't simply produce oil—we craft liquid gold that embodies the
-            essence of Tunisia's finest olive heritage."
+            "We do not present a product. We present a house — and the olive oil that carries its name."
           </blockquote>
           <div className="gold-line mt-8" />
         </motion.div>

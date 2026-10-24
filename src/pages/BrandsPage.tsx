@@ -3,23 +3,28 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import arivanoHero from "@/assets/arivano-hero.jpg";
-import olivoreHero from "@/assets/olivore-hero.jpg";
+import arivanoHero from "../../thala/Gemini_Generated_Image_xh0ogqxh0ogqxh0o.jpg";
+import olivoreHero from "@/assets/origin/thala-hands.jpg";
 import { Crown, Gem, Star, Droplets, Leaf, Award } from "lucide-react";
+import { Em, useI18n } from "@/i18n/language";
+import { EdgeRule, Mark, marks } from "@/components/decoration/OriginMarks";
 
-const arivanoFeatures = [
-  { icon: Crown, title: "Single Estate", description: "Sourced exclusively from our premier grove in Northern Tunisia" },
-  { icon: Gem, title: "Limited Production", description: "Only 5,000 bottles produced each harvest season" },
-  { icon: Star, title: "Award Winning", description: "Gold medal winner at international olive oil competitions" },
-];
-
-const olivoreFeatures = [
-  { icon: Droplets, title: "Pure Blend", description: "Expertly blended from select Tunisian olive varieties" },
-  { icon: Leaf, title: "Everyday Luxury", description: "Premium quality for daily culinary excellence" },
-  { icon: Award, title: "Certified Quality", description: "Meets the highest international quality standards" },
-];
+const landIcons = [Crown, Gem, Star];
+const gestureIcons = [Droplets, Leaf, Award];
 
 const BrandsPage = () => {
+  const { t, tm } = useI18n();
+  const arivanoFeatures = tm<{ title: string; description: string }[]>("heritagePage.landFeatures").map((feature, index) => ({
+    ...feature,
+    icon: landIcons[index],
+  }));
+  const olivoreFeatures = tm<{ title: string; description: string }[]>("heritagePage.gestureFeatures").map((feature, index) => ({
+    ...feature,
+    icon: gestureIcons[index],
+  }));
+  const placeNotes = tm<string[]>("heritagePage.placeNotes");
+  const gestureNotes = tm<string[]>("heritagePage.gestureNotes");
+  const rows = tm<{ feature: string; land: string; craft: string }[]>("heritagePage.rows");
   const arivanoRef = useRef(null);
   const olivoreRef = useRef(null);
 
@@ -41,7 +46,10 @@ const BrandsPage = () => {
             }}
           />
         </div>
-        
+        <Mark src={marks.diamond} deep className="left-6 top-28 hidden h-16 md:block" />
+        <Mark src={marks.spine} deep className="right-6 top-28 hidden h-44 lg:block" />
+        <Mark src={marks.tree} deep className="bottom-6 left-8 hidden h-28 md:block" />
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -49,21 +57,24 @@ const BrandsPage = () => {
           className="relative z-10 text-center px-6"
         >
           <span className="text-gold-light text-sm tracking-[0.3em] uppercase mb-4 block">
-            Our Collection
+            {t("heritagePage.kicker")}
           </span>
           <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-primary-foreground font-light mb-6">
-            Premium <span className="italic">Brands</span>
+            <Em text={t("heritagePage.title")} />
           </h1>
           <div className="gold-line mb-8" />
           <p className="text-primary-foreground/70 text-lg md:text-xl max-w-2xl mx-auto">
-            Two distinguished lines, each representing the pinnacle of olive oil excellence.
+            {t("heritagePage.lead")}
           </p>
         </motion.div>
       </section>
 
-      {/* ARIVANO Section */}
-      <section ref={arivanoRef} className="py-24 md:py-32 bg-background">
-        <div className="container mx-auto px-6">
+      {/* The Land */}
+      <section ref={arivanoRef} className="relative overflow-hidden py-24 md:py-32 bg-background">
+        <EdgeRule src={marks.bar} className="top-8" />
+        <Mark src={marks.crescent} className="-left-6 top-28 hidden h-72 xl:block" />
+        <Mark src={marks.grove} className="bottom-10 right-8 h-14" />
+        <div className="container relative z-10 mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Product Image */}
             <motion.div
@@ -77,7 +88,7 @@ const BrandsPage = () => {
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.6 }}
                   src={arivanoHero}
-                  alt="ARIVANO Luxury Extra Virgin Olive Oil"
+                  alt={t("heritagePage.landscapes")}
                   className="w-full h-[500px] object-contain"
                 />
                 {/* Gold frame */}
@@ -91,7 +102,7 @@ const BrandsPage = () => {
                 className="absolute -bottom-6 -right-6 bg-accent text-accent-foreground p-6 hidden lg:flex flex-col items-center"
               >
                 <Crown className="w-8 h-8 mb-2" strokeWidth={1} />
-                <span className="text-xs tracking-[0.2em] uppercase">Luxury Line</span>
+                <span className="text-xs tracking-[0.2em] uppercase">{t("heritagePage.theLand")}</span>
               </motion.div>
             </motion.div>
 
@@ -102,25 +113,19 @@ const BrandsPage = () => {
               transition={{ duration: 1, delay: 0.2 }}
             >
               <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-                Luxury Extra Virgin
+                {t("heritagePage.landscapes")}
               </span>
               <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl text-primary font-light mb-6 tracking-[0.1em]">
-                ARIVANO
+                {t("brands.talaName")}
               </h2>
               <div className="gold-line mb-8 mx-0" />
               
               <p className="text-foreground/80 text-lg leading-relaxed mb-6">
-                The crown jewel of the CELIUM collection. ARIVANO represents the absolute 
-                pinnacle of olive oil excellence—a single-estate extra virgin olive oil 
-                crafted for those who accept nothing less than perfection.
+                {t("heritagePage.landP1")}
               </p>
               
               <p className="text-foreground/70 leading-relaxed mb-10">
-                Harvested from ancient olive trees on our premier estate, each bottle of 
-                ARIVANO is cold-pressed within hours of picking, preserving the vibrant 
-                flavors and exceptional nutritional properties that define truly exceptional 
-                olive oil. With notes of fresh grass, artichoke, and a distinctive peppery 
-                finish, ARIVANO transforms every dish into a culinary masterpiece.
+                {t("heritagePage.landP2")}
               </p>
 
               {/* Features */}
@@ -149,9 +154,9 @@ const BrandsPage = () => {
                 transition={{ duration: 0.8, delay: 0.7 }}
                 className="mt-12 p-6 border border-accent/20 bg-secondary/30"
               >
-                <h4 className="font-serif text-lg text-primary mb-4">Tasting Notes</h4>
+                <h4 className="font-serif text-lg text-primary mb-4">{t("heritagePage.ofPlace")}</h4>
                 <div className="flex flex-wrap gap-3">
-                  {["Fresh Grass", "Artichoke", "Green Almond", "Pepper", "Herbaceous"].map((note) => (
+                  {placeNotes.map((note) => (
                     <span
                       key={note}
                       className="px-4 py-2 text-xs tracking-[0.15em] uppercase border border-accent/30 text-accent"
@@ -168,16 +173,21 @@ const BrandsPage = () => {
 
       {/* Divider */}
       <div className="bg-secondary py-8">
-        <div className="container mx-auto px-6 flex items-center justify-center gap-8">
+        <div className="container mx-auto px-6 flex items-center justify-center gap-6">
+          <img src={marks.bar} alt="" aria-hidden className="hidden h-5 w-auto opacity-40 sm:block" />
           <div className="h-px flex-1 bg-accent/20" />
           <span className="font-serif text-xl text-accent italic">×</span>
           <div className="h-px flex-1 bg-accent/20" />
+          <img src={marks.bar} alt="" aria-hidden className="hidden h-5 w-auto -scale-x-100 opacity-40 sm:block" />
         </div>
       </div>
 
-      {/* OLIVORE Section */}
-      <section ref={olivoreRef} className="py-24 md:py-32 bg-background">
-        <div className="container mx-auto px-6">
+      {/* The Gesture */}
+      <section ref={olivoreRef} className="relative overflow-hidden py-24 md:py-32 bg-background">
+        <Mark src={marks.loom} className="right-0 top-16 hidden h-64 lg:block" />
+        <Mark src={marks.kilim} className="bottom-8 left-4 hidden h-28 md:block" />
+        <EdgeRule src={marks.bar} className="bottom-8" />
+        <div className="container relative z-10 mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Content */}
             <motion.div
@@ -187,25 +197,19 @@ const BrandsPage = () => {
               className="lg:order-2"
             >
               <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-                Premium Olive Oil
+                {t("heritagePage.savoir")}
               </span>
               <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl text-primary font-light mb-6 tracking-[0.1em]">
-                OLIVORE
+                {t("brands.handsName")}
               </h2>
               <div className="gold-line mb-8 mx-0" />
               
               <p className="text-foreground/80 text-lg leading-relaxed mb-6">
-                Where accessibility meets excellence. OLIVORE brings the refined quality 
-                of CELIUM to everyday cooking, offering a premium olive oil that elevates 
-                every meal without compromise.
+                {t("heritagePage.gestureP1")}
               </p>
               
               <p className="text-foreground/70 leading-relaxed mb-10">
-                Expertly blended from select Tunisian olive varieties, OLIVORE delivers 
-                consistent quality and balanced flavor that makes it perfect for both 
-                cooking and finishing. Its mild, fruity character with subtle buttery notes 
-                complements a wide range of cuisines, from Mediterranean classics to 
-                contemporary fusion dishes.
+                {t("heritagePage.gestureP2")}
               </p>
 
               {/* Features */}
@@ -234,9 +238,9 @@ const BrandsPage = () => {
                 transition={{ duration: 0.8, delay: 0.7 }}
                 className="mt-12 p-6 border border-accent/20 bg-secondary/30"
               >
-                <h4 className="font-serif text-lg text-primary mb-4">Tasting Notes</h4>
+                <h4 className="font-serif text-lg text-primary mb-4">{t("heritagePage.ofGesture")}</h4>
                 <div className="flex flex-wrap gap-3">
-                  {["Mild Fruit", "Butter", "Ripe Olive", "Smooth", "Balanced"].map((note) => (
+                  {gestureNotes.map((note) => (
                     <span
                       key={note}
                       className="px-4 py-2 text-xs tracking-[0.15em] uppercase border border-accent/30 text-accent"
@@ -260,7 +264,7 @@ const BrandsPage = () => {
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.6 }}
                   src={olivoreHero}
-                  alt="OLIVORE Premium Olive Oil"
+                  alt={t("heritagePage.theGesture")}
                   className="w-full h-[500px] object-contain"
                 />
                 {/* Gold frame */}
@@ -274,7 +278,7 @@ const BrandsPage = () => {
                 className="absolute -bottom-6 -left-6 bg-primary text-primary-foreground p-6 hidden lg:flex flex-col items-center"
               >
                 <Leaf className="w-8 h-8 mb-2 text-gold-light" strokeWidth={1} />
-                <span className="text-xs tracking-[0.2em] uppercase text-gold-light">Premium Line</span>
+                <span className="text-xs tracking-[0.2em] uppercase text-gold-light">{t("heritagePage.theGesture")}</span>
               </motion.div>
             </motion.div>
           </div>
@@ -282,14 +286,16 @@ const BrandsPage = () => {
       </section>
 
       {/* Comparison Section */}
-      <section className="py-24 md:py-32 bg-primary">
-        <div className="container mx-auto px-6">
+      <section className="relative overflow-hidden py-24 md:py-32 bg-primary">
+        <Mark src={marks.lattice} deep className="left-4 top-28 hidden h-44 md:block" />
+        <Mark src={marks.diamond} deep className="bottom-6 right-6 hidden h-28 md:block" />
+        <div className="container relative z-10 mx-auto px-6">
           <div className="text-center mb-16">
             <span className="text-gold-light text-sm tracking-[0.3em] uppercase mb-4 block">
-              Choose Your Experience
+              {t("heritagePage.essence")}
             </span>
             <h2 className="font-serif text-4xl md:text-5xl text-primary-foreground font-light mb-6">
-              Compare Our <span className="italic">Oils</span>
+              <Em text={t("heritagePage.landAndCraft")} />
             </h2>
             <div className="gold-line" />
           </div>
@@ -297,31 +303,25 @@ const BrandsPage = () => {
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-3 gap-4 text-center">
               <div className="p-6">
-                <span className="text-primary-foreground/40 text-sm uppercase tracking-wider">Feature</span>
+                <span className="text-primary-foreground/40 text-sm uppercase tracking-wider">{t("heritagePage.feature")}</span>
               </div>
               <div className="p-6 bg-primary-foreground/5">
-                <span className="font-serif text-2xl text-gold-light">ARIVANO</span>
+                <span className="font-serif text-2xl text-gold-light">{t("heritagePage.land")}</span>
               </div>
               <div className="p-6 bg-primary-foreground/5">
-                <span className="font-serif text-2xl text-gold-light">OLIVORE</span>
+                <span className="font-serif text-2xl text-gold-light">{t("heritagePage.craft")}</span>
               </div>
 
-              {[
-                { feature: "Type", arivano: "Extra Virgin", olivore: "Premium Blend" },
-                { feature: "Origin", arivano: "Single Estate", olivore: "Multi-Source" },
-                { feature: "Production", arivano: "Limited", olivore: "Year-Round" },
-                { feature: "Best For", arivano: "Finishing", olivore: "Cooking" },
-                { feature: "Flavor Profile", arivano: "Bold & Complex", olivore: "Mild & Balanced" },
-              ].map((row, index) => (
+              {rows.map((row, index) => (
                 <>
                   <div key={`feature-${index}`} className="p-4 border-t border-primary-foreground/10">
                     <span className="text-primary-foreground/60 text-sm">{row.feature}</span>
                   </div>
                   <div key={`arivano-${index}`} className="p-4 border-t border-primary-foreground/10 bg-primary-foreground/5">
-                    <span className="text-primary-foreground">{row.arivano}</span>
+                    <span className="text-primary-foreground">{row.land}</span>
                   </div>
                   <div key={`olivore-${index}`} className="p-4 border-t border-primary-foreground/10 bg-primary-foreground/5">
-                    <span className="text-primary-foreground">{row.olivore}</span>
+                    <span className="text-primary-foreground">{row.craft}</span>
                   </div>
                 </>
               ))}

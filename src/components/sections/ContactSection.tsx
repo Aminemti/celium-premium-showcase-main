@@ -6,8 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { Em, useI18n } from "@/i18n/language";
+import { Mark, marks } from "@/components/decoration/OriginMarks";
 
 export const ContactSection = () => {
+  const { t } = useI18n();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { toast } = useToast();
@@ -21,8 +24,8 @@ export const ContactSection = () => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     toast({
-      title: "Message Sent",
-      description: "Thank you for reaching out. We'll respond within 24 hours.",
+      title: t("contact.toastTitle"),
+      description: t("contact.toastBody"),
     });
 
     setIsSubmitting(false);
@@ -30,7 +33,9 @@ export const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-16 md:py-24 bg-background" ref={ref}>
+    <section id="contact" className="relative overflow-hidden py-16 md:py-24 bg-background" ref={ref}>
+      <Mark src={marks.bar} className="left-6 top-1/2 hidden h-8 -translate-y-1/2 md:block" />
+      <Mark src={marks.tree} className="bottom-8 right-8 hidden h-20 md:block" />
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Contact Info */}
@@ -40,16 +45,15 @@ export const ContactSection = () => {
             transition={{ duration: 1 }}
           >
             <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-              Get in Touch
+              {t("contact.kicker")}
             </span>
             <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary font-light mb-6">
-              Contact <span className="italic">Us</span>
+              <Em text={t("contact.title")} />
             </h2>
             <div className="gold-line mb-8 mx-0" />
 
             <p className="text-foreground/70 text-lg leading-relaxed mb-12">
-              Whether you're interested in our premium oils, bespoke packaging
-              solutions, or partnership opportunities, we'd love to hear from you.
+              {t("contact.intro")}
             </p>
 
             {/* Contact Details */}
@@ -64,8 +68,8 @@ export const ContactSection = () => {
                   <MapPin className="w-5 h-5 text-accent" />
                 </div>
                 <div>
-                  <h4 className="font-serif text-lg text-primary mb-1">Location</h4>
-                  <p className="text-muted-foreground">Tunisia, North Africa</p>
+                  <h4 className="font-serif text-lg text-primary mb-1">{t("contact.location")}</h4>
+                  <p className="text-muted-foreground">{t("contact.place")}</p>
                 </div>
               </motion.div>
 
@@ -79,8 +83,8 @@ export const ContactSection = () => {
                   <Mail className="w-5 h-5 text-accent" />
                 </div>
                 <div>
-                  <h4 className="font-serif text-lg text-primary mb-1">Email</h4>
-                  <p className="text-muted-foreground">contact@celiumoils.com</p>
+                  <h4 className="font-serif text-lg text-primary mb-1">{t("contact.email")}</h4>
+                  <p className="text-muted-foreground">contact@maisonfrexes.com</p>
                 </div>
               </motion.div>
 
@@ -94,7 +98,7 @@ export const ContactSection = () => {
                   <Phone className="w-5 h-5 text-accent" />
                 </div>
                 <div>
-                  <h4 className="font-serif text-lg text-primary mb-1">Phone</h4>
+                  <h4 className="font-serif text-lg text-primary mb-1">{t("contact.phone")}</h4>
                   <p className="text-muted-foreground">+216 XX XXX XXX</p>
                 </div>
               </motion.div>
@@ -118,14 +122,14 @@ export const ContactSection = () => {
                       htmlFor="name"
                       className="block text-sm tracking-[0.15em] uppercase text-muted-foreground mb-2"
                     >
-                      Name
+                      {t("contact.name")}
                     </label>
                     <Input
                       id="name"
                       name="name"
                       required
                       className="bg-background border-border focus:border-accent focus:ring-accent"
-                      placeholder="Your name"
+                      placeholder={t("contact.namePh")}
                     />
                   </div>
                   <div>
@@ -133,7 +137,7 @@ export const ContactSection = () => {
                       htmlFor="email"
                       className="block text-sm tracking-[0.15em] uppercase text-muted-foreground mb-2"
                     >
-                      Email
+                      {t("contact.email")}
                     </label>
                     <Input
                       id="email"
@@ -141,7 +145,7 @@ export const ContactSection = () => {
                       type="email"
                       required
                       className="bg-background border-border focus:border-accent focus:ring-accent"
-                      placeholder="your@email.com"
+                      placeholder={t("contact.emailPh")}
                     />
                   </div>
                 </div>
@@ -151,14 +155,14 @@ export const ContactSection = () => {
                     htmlFor="subject"
                     className="block text-sm tracking-[0.15em] uppercase text-muted-foreground mb-2"
                   >
-                    Subject
+                    {t("contact.subject")}
                   </label>
                   <Input
                     id="subject"
                     name="subject"
                     required
                     className="bg-background border-border focus:border-accent focus:ring-accent"
-                    placeholder="How can we help?"
+                      placeholder={t("contact.subjectPh")}
                   />
                 </div>
 
@@ -167,7 +171,7 @@ export const ContactSection = () => {
                     htmlFor="message"
                     className="block text-sm tracking-[0.15em] uppercase text-muted-foreground mb-2"
                   >
-                    Message
+                    {t("contact.message")}
                   </label>
                   <Textarea
                     id="message"
@@ -175,7 +179,7 @@ export const ContactSection = () => {
                     required
                     rows={5}
                     className="bg-background border-border focus:border-accent focus:ring-accent resize-none"
-                    placeholder="Tell us about your inquiry..."
+                    placeholder={t("contact.messagePh")}
                   />
                 </div>
 
@@ -185,10 +189,10 @@ export const ContactSection = () => {
                   className="w-full bg-primary hover:bg-olive-medium text-primary-foreground py-6 text-sm tracking-[0.2em] uppercase transition-all duration-300 group"
                 >
                   {isSubmitting ? (
-                    "Sending..."
+                    t("contact.sending")
                   ) : (
                     <>
-                      Send Message
+                      {t("contact.send")}
                       <Send className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}

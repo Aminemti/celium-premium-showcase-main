@@ -2,58 +2,35 @@ import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 
-import gallery1 from "@/assets/gallery-1.jpg";
-import gallery2 from "@/assets/gallery-2.jpg";
-import gallery3 from "@/assets/gallery-3.jpg";
-import gallery4 from "@/assets/gallery-4.jpg";
-import gallery5 from "@/assets/gallery-5.jpg";
-import gallery6 from "@/assets/gallery-6.jpg";
+import gallery1 from "@/assets/origin/thala-fruit.jpg";
+import gallery2 from "../../../thala/Gemini_Generated_Image_cngdmdcngdmdcngd.jpg";
+import gallery3 from "@/assets/origin/thala-oil-light.jpg";
+import gallery4 from "../../../thala/Gemini_Generated_Image_tvqz8ytvqz8ytvqz.jpg";
+import gallery5 from "../../../thala/Gemini_Generated_Image_qyl2f4qyl2f4qyl2.jpg";
+import gallery6 from "@/assets/origin/thala-hands.jpg";
+import { Em, useI18n } from "@/i18n/language";
+import { Mark, marks } from "@/components/decoration/OriginMarks";
 
-const galleryItems = [
-  {
-    src: gallery1,
-    title: "The Harvest",
-    description: "Hand-picked olives from our Tunisian groves",
-    gridClass: "md:col-span-1 md:row-span-2",
-  },
-  {
-    src: gallery2,
-    title: "Our Collection",
-    description: "Premium olive oil varieties for every palate",
-    gridClass: "md:col-span-2 md:row-span-1",
-  },
-  {
-    src: gallery3,
-    title: "Liquid Gold",
-    description: "Pure, unfiltered extra virgin excellence",
-    gridClass: "md:col-span-1 md:row-span-1",
-  },
-  {
-    src: gallery4,
-    title: "Culinary Art",
-    description: "Elevating dishes with Mediterranean flavors",
-    gridClass: "md:col-span-1 md:row-span-1",
-  },
-  {
-    src: gallery5,
-    title: "Ancient Heritage",
-    description: "Centuries-old olive trees, timeless tradition",
-    gridClass: "md:col-span-1 md:row-span-2",
-  },
-  {
-    src: gallery6,
-    title: "Quality Assured",
-    description: "Scientific precision meets artisan craft",
-    gridClass: "md:col-span-2 md:row-span-2",
-  },
+const frames = [
+  { src: gallery1, gridClass: "md:col-span-1 md:row-span-2" },
+  { src: gallery2, gridClass: "md:col-span-2 md:row-span-1" },
+  { src: gallery3, gridClass: "md:col-span-1 md:row-span-1" },
+  { src: gallery4, gridClass: "md:col-span-1 md:row-span-1" },
+  { src: gallery5, gridClass: "md:col-span-1 md:row-span-2" },
+  { src: gallery6, gridClass: "md:col-span-2 md:row-span-2" },
 ];
 
 export const GallerySection = () => {
+  const { t, tm } = useI18n();
+  const copy = tm<{ title: string; description: string }[]>("gallery.items");
+  const galleryItems = frames.map((frame, index) => ({ ...frame, ...copy[index] }));
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section className="py-16 md:py-24 bg-background relative overflow-hidden" ref={ref}>
+      <Mark src={marks.diamond} className="left-6 top-20 hidden h-20 md:block" />
+      <Mark src={marks.grove} className="bottom-8 right-8 hidden h-14 md:block" />
       {/* Decorative elements */}
       <div className="absolute top-20 right-10 w-64 h-64 border border-accent/10 rounded-full opacity-30" />
       <div className="absolute bottom-40 left-10 w-32 h-32 border border-accent/10 rounded-full opacity-30" />
@@ -67,14 +44,14 @@ export const GallerySection = () => {
           className="text-center mb-16"
         >
           <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-            Gallery
+            {t("gallery.kicker")}
           </span>
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary font-light mb-6">
-            A World of <span className="italic">Purity</span>
+            <Em text={t("gallery.title")} />
           </h2>
           <div className="gold-line" />
           <p className="mt-6 text-muted-foreground max-w-2xl mx-auto text-lg">
-            Explore the artistry behind CELIUM — from sun-drenched groves to the elegance of our final products.
+            {t("gallery.intro")}
           </p>
         </motion.div>
 

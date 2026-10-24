@@ -123,6 +123,24 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif;
   }
+
+  html[dir="rtl"] body,
+  html[dir="rtl"] h1,
+  html[dir="rtl"] h2,
+  html[dir="rtl"] h3,
+  html[dir="rtl"] h4,
+  html[dir="rtl"] h5,
+  html[dir="rtl"] h6 {
+    font-family: "Noto Naskh Arabic", "Cormorant Garamond", serif;
+    letter-spacing: 0;
+  }
+
+  html[dir="rtl"] .tracking-wide,
+  html[dir="rtl"] .tracking-wider,
+  html[dir="rtl"] .tracking-widest,
+  html[dir="rtl"] [class*="tracking-"] {
+    letter-spacing: 0.02em;
+  }
 }
 
 @layer utilities {

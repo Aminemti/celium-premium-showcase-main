@@ -2,38 +2,26 @@ import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { Leaf, Award, Globe } from "lucide-react";
+import { Em, useI18n } from "@/i18n/language";
+import { Mark, marks } from "@/components/decoration/OriginMarks";
 
-const excellenceItems = [
-  {
-    icon: Leaf,
-    title: "100% Natural",
-    description: "Pure, unadulterated olive oils and natural oils sourced from the finest origins in Tunisia.",
-    iconBg: "bg-primary",
-    cardBg: "bg-card",
-  },
-  {
-    icon: Award,
-    title: "Premium Quality",
-    description: "Rigorous quality control ensures every product meets our exceptional standards.",
-    iconBg: "bg-accent",
-    cardBg: "bg-secondary",
-    featured: true,
-  },
-  {
-    icon: Globe,
-    title: "International",
-    description: "Serving global markets with luxury packaging and premium branding.",
-    iconBg: "bg-primary",
-    cardBg: "bg-card",
-  },
+const visuals = [
+  { icon: Leaf, iconBg: "bg-primary", cardBg: "bg-card" },
+  { icon: Award, iconBg: "bg-accent", cardBg: "bg-secondary", featured: true },
+  { icon: Globe, iconBg: "bg-primary", cardBg: "bg-card" },
 ];
 
 export const ExcellenceSection = () => {
+  const { t, tm } = useI18n();
+  const copy = tm<{ title: string; description: string }[]>("excellence.items");
+  const excellenceItems = visuals.map((visual, index) => ({ ...visual, ...copy[index] }));
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-16 md:py-24 bg-background" ref={ref}>
+    <section className="relative overflow-hidden py-16 md:py-24 bg-background" ref={ref}>
+      <Mark src={marks.kilim} className="right-2 top-12 hidden h-36 md:block" />
+      <Mark src={marks.crescent} className="-left-8 bottom-8 hidden h-56 xl:block" />
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <motion.div
@@ -43,10 +31,10 @@ export const ExcellenceSection = () => {
           className="text-center mb-16"
         >
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary font-light mb-6">
-            Excellence in Every <span className="italic">Detail</span>
+            <Em text={t("excellence.title")} />
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            From careful selection of olives and natural ingredients to premium packaging and preservation, we ensure the highest standards in every step of our process.
+            {t("excellence.intro")}
           </p>
         </motion.div>
 

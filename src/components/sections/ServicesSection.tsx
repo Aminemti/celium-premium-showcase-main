@@ -2,41 +2,26 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Droplets, Package, Sparkles, ArrowRight, Check } from "lucide-react";
+import { Em, useI18n } from "@/i18n/language";
+import { EdgeRule, Mark, marks } from "@/components/decoration/OriginMarks";
 
-const services = [
-  {
-    icon: Droplets,
-    title: "Premium Olive Oil",
-    description: "Exquisite extra virgin and premium olive oils, cold-pressed from hand-selected olives. Our ARIVANO and OLIVORE collections represent the pinnacle of Tunisian olive oil craftsmanship, each bottle a testament to centuries of tradition and uncompromising quality.",
-    features: ["Extra Virgin Quality", "Cold-Pressed Excellence", "Single Estate Options", "Award-Winning"],
-    accent: "bg-primary",
-    textAccent: "text-primary-foreground",
-  },
-  {
-    icon: Sparkles,
-    title: "Natural Oils Collection",
-    description: "A curated selection of rare and precious natural oils, sourced from Tunisia's finest botanical treasures. From argan to almond, each oil is carefully extracted to preserve its natural properties and therapeutic benefits, perfect for culinary and wellness applications.",
-    features: ["Rare Varieties", "Therapeutic Benefits", "Culinary Excellence", "Pure Extraction"],
-    accent: "bg-accent",
-    textAccent: "text-accent-foreground",
-    featured: true,
-  },
-  {
-    icon: Package,
-    title: "Packaging & Preservation",
-    description: "Luxury packaging solutions designed to protect and preserve the integrity of your premium oils. Our bespoke packaging services ensure optimal preservation, elegant presentation, and extended shelf life, with custom branding that reflects your brand's sophistication.",
-    features: ["Luxury Packaging", "Optimal Preservation", "Custom Branding", "Extended Shelf Life"],
-    accent: "bg-primary",
-    textAccent: "text-primary-foreground",
-  },
+const visuals = [
+  { icon: Droplets, accent: "bg-primary", textAccent: "text-primary-foreground" },
+  { icon: Sparkles, accent: "bg-accent", textAccent: "text-accent-foreground", featured: true },
+  { icon: Package, accent: "bg-primary", textAccent: "text-primary-foreground" },
 ];
 
 export const ServicesSection = () => {
+  const { t, tm } = useI18n();
+  const copy = tm<{ title: string; description: string; features: string[] }[]>("services.items");
+  const services = visuals.map((visual, index) => ({ ...visual, ...copy[index] }));
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section className="py-12 md:py-16 bg-secondary relative overflow-hidden" ref={ref}>
+      <EdgeRule src={marks.bar} className="bottom-4" />
+      <Mark src={marks.spine} className="left-2 top-10 hidden h-40 lg:block" />
       {/* Decorative gradient lines */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
       <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
@@ -66,10 +51,10 @@ export const ServicesSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block"
           >
-            Our Services
+            {t("services.kicker")}
           </motion.span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-primary font-light mb-4">
-            Comprehensive <span className="italic">Excellence</span>
+            <Em text={t("services.title")} />
           </h2>
           <motion.div
             initial={{ scaleX: 0 }}
@@ -78,8 +63,7 @@ export const ServicesSection = () => {
             className="gold-line mb-6"
           />
           <p className="text-muted-foreground max-w-2xl mx-auto text-base">
-            From premium olive oils and natural oils to bespoke packaging and preservation solutions, 
-            we offer a complete range of services tailored to meet the highest standards of quality and luxury.
+            {t("services.intro")}
           </p>
         </motion.div>
 
@@ -113,7 +97,7 @@ export const ServicesSection = () => {
                   >
                     <div className="w-2 h-2 rounded-full bg-primary-foreground animate-pulse" />
                     <span className="text-[10px] tracking-[0.2em] uppercase text-primary-foreground/80">
-                      Featured
+                      {t("services.table")}
                     </span>
                   </motion.div>
                 )}
@@ -239,8 +223,7 @@ export const ServicesSection = () => {
         >
           <blockquote className="font-serif text-lg md:text-xl text-foreground/70 italic max-w-2xl mx-auto mb-4 relative">
             <span className="absolute -left-4 md:-left-8 text-accent/30 text-4xl font-serif">"</span>
-            Each service is crafted with the same dedication to excellence, ensuring uncompromising quality 
-            in every aspect of our offerings.
+            Authenticity. Elegance. Excellence. Heritage. Trust.
             <span className="absolute -right-4 md:-right-8 text-accent/30 text-4xl font-serif">"</span>
           </blockquote>
           <motion.div

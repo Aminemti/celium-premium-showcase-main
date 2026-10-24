@@ -1,38 +1,40 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import brand1 from "@/assets/brand-1.jpg";
-import brand2 from "@/assets/brand-2.jpg";
-
-const brands = [
-  {
-    name: "ARIVANO",
-    tagline: "Luxury Extra Virgin Olive Oil",
-    description:
-      "The pinnacle of olive oil excellence. ARIVANO represents our most prestigious offering—cold-pressed from hand-selected olives harvested at perfect ripeness. Each bottle is a testament to centuries of Tunisian craftsmanship.",
-    features: ["Single Estate Origin", "Cold Pressed", "Hand Selected"],
-    image: brand1,
-    bgClass: "bg-primary",
-    textClass: "text-primary-foreground",
-  },
-  {
-    name: "OLIVORE",
-    tagline: "Premium Olive Oil Line",
-    description:
-      "Where accessibility meets excellence. OLIVORE brings premium quality olive oil to discerning customers who appreciate the finer things without compromise. Pure, refined, and consistently exceptional.",
-    features: ["Premium Quality", "Refined Taste", "Versatile Use"],
-    image: brand2,
-    bgClass: "bg-secondary",
-    textClass: "text-secondary-foreground",
-  },
-];
+import brand1 from "../../../thala/Gemini_Generated_Image_qyl2f4qyl2f4qyl2.jpg";
+import brand2 from "@/assets/origin/thala-hands.jpg";
+import { Em, useI18n } from "@/i18n/language";
+import { Mark, marks } from "@/components/decoration/OriginMarks";
 
 export const BrandsSection = () => {
+  const { t, tm } = useI18n();
+  const brands = [
+    {
+      name: t("brands.talaName"),
+      tagline: t("brands.talaTag"),
+      description: t("brands.talaText"),
+      features: tm<string[]>("brands.talaFeatures"),
+      image: brand1,
+      bgClass: "bg-primary",
+      textClass: "text-primary-foreground",
+    },
+    {
+      name: t("brands.handsName"),
+      tagline: t("brands.handsTag"),
+      description: t("brands.handsText"),
+      features: tm<string[]>("brands.handsFeatures"),
+      image: brand2,
+      bgClass: "bg-secondary",
+      textClass: "text-secondary-foreground",
+    },
+  ];
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section id="brands" className="py-16 md:py-24 bg-cream-dark relative overflow-hidden" ref={ref}>
+      <Mark src={marks.kilim} className="left-2 top-16 hidden h-36 md:block" />
+      <Mark src={marks.spine} className="bottom-8 right-4 hidden h-48 lg:block" />
       {/* Classical Background Pattern */}
       <div className="absolute inset-0 opacity-[0.015] pointer-events-none">
         <div
@@ -58,10 +60,10 @@ export const BrandsSection = () => {
           className="text-center mb-20"
         >
           <span className="text-accent text-sm tracking-[0.3em] uppercase mb-4 block">
-            Our Collection
+            {t("brands.kicker")}
           </span>
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary font-light mb-6 relative">
-            Premium <span className="italic">Brands</span>
+            <Em text={t("brands.title")} />
             {/* Classical Decorative Elements */}
             <div className="absolute -left-8 top-1/2 -translate-y-1/2 hidden xl:block">
               <div className="w-1 h-16 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
@@ -75,7 +77,7 @@ export const BrandsSection = () => {
             <div className="absolute left-1/2 -translate-x-1/2 -top-2 w-32 h-1 bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
           </div>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Two distinguished lines, one unwavering commitment to excellence.
+            {t("brands.intro")}
           </p>
         </motion.div>
 
